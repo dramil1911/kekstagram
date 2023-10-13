@@ -1,4 +1,5 @@
 import { isEscKey } from './utils.js';
+import './effects.js';
 
 const COMMENT_ELEMENT_COUNT = 5;
 
@@ -9,6 +10,8 @@ const socialComments = document.querySelector('.social__comments');
 const commentTeamplate = document.querySelector('#comment').content.querySelector('.social__comment');
 const socialCommntsCounter = bigPicture.querySelector('.social__comment-count');
 const commentsLoader = bigPicture.querySelector('.comments-loader');
+
+
 commentsLoader.classList.add('hidden');
 
 const renderComment = (userComment) => {
@@ -56,6 +59,7 @@ const onEscPush = (evt) => {
   }
 };
 
+
 function closeBigPicture() {
   bigPicture.classList.add('hidden');
   bigPictureCancel.removeEventListener('click', closeBigPicture);
@@ -78,6 +82,7 @@ const showBigPicture = (photo) => {
   bigPictureCancel.addEventListener('click', closeBigPicture);
 
   document.addEventListener('keydown', onEscPush);
+
 };
 
 export { showBigPicture };

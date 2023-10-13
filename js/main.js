@@ -5,4 +5,5 @@ import { validateForm } from './validation.js';
 renderPreviews();
 const uploadForm = document.querySelector('#upload-file');
 uploadForm.addEventListener('change', uploadFoto);
+
 validateForm();
