@@ -6,6 +6,7 @@ const validateForm = () => {
   const uploadForm = document.querySelector('.img-upload__form');
   const hashTagInput = uploadForm.querySelector('.text__hashtags  ');
   const textArea = document.querySelector('.text__description');
+  const submitButton = document.querySelector('.img-upload__submit');
 
   const onEscPushInput = (evt) => {
     if (isEscKey(evt.key)) {
@@ -16,7 +17,6 @@ const validateForm = () => {
 
 
   uploadForm.addEventListener('input', () => {
-
 
     textArea.addEventListener('keydown', onEscPushInput);
     hashTagInput.addEventListener('keydown', onEscPushInput);
@@ -31,26 +31,28 @@ const validateForm = () => {
         errorTextClass: 'form__error'
       });
 
+      const sortArray = (value) => value.toLowerCase().trim().split(/\s/);
+
       const validateTagsQuantity = (value) => {
-        const tagsArray = value.toLowerCase().trim().split(/\s/);
+        const tagsArray = sortArray(value);
         return tagsArray.length <= 5;
       };
 
       const validateHahTagStart = (value) => {
-        const tagsArray = value.toLowerCase().trim().split(/\s/);
+        const tagsArray = sortArray(value);
         const result = tagsArray.every((elem) => (/^#/.test(elem)));
         return result;
 
       };
 
       const validateSpecialSymbols = (value) => {
-        const tagsArray = value.toLowerCase().trim().split(/\s/);
+        const tagsArray = sortArray(value);
         const result = tagsArray.every((elem) => (/[a-zа-яё\s0-9]+$/.test(elem)));
         return result;
       };
 
       const validateOnlyHashTag = (value) => {
-        const tagsArray = value.toLowerCase().trim().split(/\s/);
+        const tagsArray = sortArray(value);
         const result = tagsArray.every((elem) => (!/^#$/.test(elem)));
         return result;
       };
@@ -73,10 +75,15 @@ const validateForm = () => {
       pristine.addValidator(hashTagInput, validateOnlyHashTag, 'хеш-тег не может состоять только из одной #');
       pristine.addValidator(hashTagInput, validateMaxLength, 'максимальная длина одного хэш-тега 20 символов, включая решётку');
       pristine.addValidator(hashTagInput, validateDublicates, 'хеш-теги не должны повторяться');
-      pristine.validate();
+      const validationResult = pristine.validate();
+      if (!validationResult) {
+        submitButton.disabled = true;
+      } else {
+        submitButton.disabled = false;
+      }
     }
-
   });
+
 };
 
 export { validateForm };

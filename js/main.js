@@ -1,9 +1,28 @@
 import { renderPreviews, } from './preview.js';
-import { uploadFoto } from './upload-form.js';
-import { validateForm } from './validation.js';
+import { setUserFormSubmit, closeForm } from './upload-form.js';
+import { getPhotosData } from './api.js';
+import { showAlert, renderSuccessMessage, renderErrorMessage } from './utils.js';
+import { sendData } from './api.js';
 
-renderPreviews();
-const uploadForm = document.querySelector('#upload-file');
-uploadForm.addEventListener('change', uploadFoto);
 
-validateForm();
+const onGetDataSuccess = (data) => {
+  renderPreviews(data);
+};
+
+getPhotosData(onGetDataSuccess, showAlert);
+
+const onSendDataSuccess = () => {
+  closeForm();
+  renderSuccessMessage();
+};
+
+const onSendDataError = () => {
+  closeForm();
+  renderErrorMessage();
+
+};
+
+setUserFormSubmit((data) => {
+  sendData(onSendDataSuccess, onSendDataError, data);
+});
+

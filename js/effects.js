@@ -1,8 +1,17 @@
 const effectsSlider = document.querySelector('.effect-level__slider');
+const scaleValue = document.querySelector('.scale__control--value');
 const effectsList = document.querySelector('.effects__list');
 const image = document.querySelector('.img-upload__preview > img');
 const effectsSliderInput = document.querySelector('.img-upload__effect-level ');
+const effectLevel = document.querySelector('.effect-level__value');
+
 effectsSliderInput.classList.add('hidden');
+
+const imageScale = {
+  STEP: 25,
+  MIN: 25,
+  MAX: 100
+};
 
 const EFFECTS = [
   {
@@ -114,7 +123,7 @@ const updateEffects = () => {
   const value = effectsSlider.noUiSlider.get();
   image.classList.add(`effects__preview--${currentEffect.name}`);
   image.style.filter = `${currentEffect.style}(${value}${currentEffect.unit})`;
-  currentEffect.value = value;
+  effectLevel.value = value;
 };
 
 const resetImageEffects = () => {
@@ -127,4 +136,21 @@ const resetImageEffects = () => {
 effectsList.addEventListener('change', cahngeEffects);
 effectsSlider.noUiSlider.on('update', updateEffects);
 
-export { resetImageEffects };
+const onZommClick = (evt) => {
+  let scale = parseInt(scaleValue.value, 10);
+  if (evt.target.classList.contains('scale__control--smaller')) {
+    scale = scale - imageScale.STEP;
+    if (scale <= imageScale.MIN) {
+      scale = imageScale.MIN;
+    }
+  } else {
+    scale = scale + imageScale.STEP;
+    if (scale >= imageScale.MAX) {
+      scale = imageScale.MAX;
+    }
+  }
+  image.style.transform = `scale( ${scale / 100} )`;
+  scaleValue.value = scale;
+};
+
+export { resetImageEffects, onZommClick };
