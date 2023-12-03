@@ -73,9 +73,9 @@ const renderErrorMessage = () => {
 
 const renderSuccessMessage = () => {
   body.append(successMessage);
-  setTimeout(() => {
-    hideMessage();
-  }, ALERT_SHOW_TIME);
+  // setTimeout(() => {
+  //   hideMessage();
+  // }, ALERT_SHOW_TIME);
 
   successMessage.querySelector('.success__button').addEventListener('click', () => {
     hideMessage();
@@ -85,4 +85,15 @@ const renderSuccessMessage = () => {
   document.addEventListener('click', onBodyClick);
 };
 
-export { getRandomPositiveNumber, checkStringLength, isEscKey, showAlert, renderSuccessMessage, renderErrorMessage };
+function debounce(callback, timeoutDelay = 500) {
+  let timeoutId;
+
+  return (...rest) => {
+    clearTimeout(timeoutId);
+
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+
+  };
+}
+
+export { getRandomPositiveNumber, checkStringLength, isEscKey, showAlert, renderSuccessMessage, renderErrorMessage, debounce };

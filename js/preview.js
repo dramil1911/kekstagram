@@ -1,12 +1,6 @@
-// import { photosData } from './data.js';
 import { showBigPicture } from './big-picture.js';
 
-
-// const photos = getFotosData();
-// console.log(photos);
-
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
-
 const picturesList = document.querySelector('.pictures');
 
 const renderPreview = (picture) => {
@@ -24,6 +18,9 @@ const renderPreview = (picture) => {
 };
 
 const renderPreviews = (photos) => {
+  picturesList.querySelectorAll('.picture').forEach((element) => {
+    element.remove();
+  });
   const photosFragment = document.createDocumentFragment();
   photos.forEach((photo) => {
     photosFragment.append(renderPreview(photo));
